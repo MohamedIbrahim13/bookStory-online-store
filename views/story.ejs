@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= title %> </title>
+</head>
+
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <%- include('./partials/addBtn.ejs') %>
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m8">
+                <h3><%= story.title %></h3>
+                <div class="card story">
+                    <div class="card-content">
+                        <span class="card-title"><%= moment(story.createdAt).format('MMMM Do YYYY, h:mm:ss a') %></span>
+                        <%= truncate(story.body,100) %> 
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="card center-align">
+                    <div class="card-content">
+                        <span class="card-title"><%= user.displayName %> </span>
+                        <img src="<%= story.user.image %>" class="circle responsive-img img-small">
+                    </div>
+                    <div class="card-action">
+                        <a href="/stories/user/<%= story.user._id %> ">More From <%= story.user.firstName[0] %>.<%= story.user.lastName[0] %></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.14.1/ckeditor.js"
+        integrity="sha256-bEIQpI72w9NJuIVhTLFUF2/8uxl0u5800r8ddViuv+o=" crossorigin="anonymous"></script>
+
+    <script>
+        M.Sidenav.init(document.querySelector('.sidenav'))
+        M.FormSelect.init(document.querySelector('#status'))
+        CKEDITOR.replace('body', {
+            plugins: 'wysiwygarea, toolbar, basicstyles, link'
+        })
+    </script>
+</body>
+
+</html>

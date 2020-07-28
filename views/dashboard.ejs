@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css"
+        integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/css/style.css">
+    <title><%= title %> </title>
+</head>
+
+<body>
+    <%- include('./partials/header.ejs') %> 
+    <%- include('./partials/addBtn.ejs') %>
+    <div class="container">
+        <h6>Dashboard</h6>
+        <h3>Welcome <%= name %></h3>
+        <% if(stories.length){ %>
+          <p>Here are your stories</p>
+          <table class="striped">
+            
+           <thead>
+               <tr>
+                   <th>Title</th>
+                   <th>Date</th>
+                   <th>Status</th>
+                   <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                    <% for(let i=0;i<stories.length;i++){ %>
+                        <tr>
+                            <td><a href="/stories/<%= stories[i]._id %>"><%= stories[i].title %></a></td>
+                            <td><%= moment(stories[i].createdAt).format('MMMM Do YYYY, h:mm:ss a') %></td>
+                            <td><span class="dash-status"><%= stories[i].status %></span></td>
+                            <td>
+                                <a href="/stories/edit/<%= stories[i]._id %>" class="btn btn-float">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <form action="/stories/<%= stories[i]._id %>" method="POST" id="delete-form">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn red">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% } %>
+            </tbody> 
+          </table>
+        <% }else{ %> 
+            <p>You have not created any stories</p>
+        <% } %>      
+            
+       
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.14.1/ckeditor.js"
+        integrity="sha256-bEIQpI72w9NJuIVhTLFUF2/8uxl0u5800r8ddViuv+o=" crossorigin="anonymous"></script>
+
+    <script>
+        M.Sidenav.init(document.querySelector('.sidenav'))
+        M.FormSelect.init(document.querySelector('#status'))
+        CKEDITOR.replace('body', {
+            plugins: 'wysiwygarea, toolbar, basicstyles, link'
+        })
+    </script>
+</body>
+
+</html>
